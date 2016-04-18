@@ -1,3 +1,4 @@
+
 var fs = require('fs');
 var cmudictFile = readCmudictFile('./cmudict.txt');
 var library = formatData(cmudictFile);
