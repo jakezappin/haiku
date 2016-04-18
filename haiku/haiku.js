@@ -2,7 +2,6 @@ var fs = require('fs');
 var cmudictFile = readCmudictFile('./cmudict.txt');
 var library = formatData(cmudictFile);
 var syllablesLibrary = createSyllablesLibrary(library);
-var haiku = [];
 
 function readCmudictFile(file){
 	return fs.readFileSync(file).toString();
@@ -15,36 +14,36 @@ function formatData(data){
 
 	lines.forEach(function(line){
 
-		lineSplit = line.split(" ");
+		lineSplit = line.split("  ");
 		var word = lineSplit[0];
 
-		if(lineSplit[1] === true){
+		if(lineSplit[1]){
 
 			lineSplit[1] = lineSplit[1].split(" ");
 
 			var syllables = 0; 
 
 			lineSplit[1].forEach(function(phoneme){
-				if(phoneme.match(/\d/) === true){
+				if(phoneme.match(/\d/)){
 					syllables++;
 				}
 			});
 
 			if(syllables !== 0 && syllables < 8){
-				wordList.push(word);
 				wordList[word] = syllables;
 			}
 		}
 
 	})
 
-	return wordList
+	return wordList;
 
 }
 
 formatData(cmudictFile);
 
 function createSyllablesLibrary(lib){
+
 	var syllableArray = [];
 
 	for(var word in lib){
@@ -62,14 +61,14 @@ function createSyllablesLibrary(lib){
 
 function createHaiku(structure, syllablesArr){
 
-	haiku = structure.map(function(lines){
-		return lines.map(function(syllables){
-			return syllablesArr[syllables][Math.floor(Math.random()*syllablesArr.length)];
-		}).join(' ');
-	}).join('\n');
+  	var arrOfWords;
+  	return structure.map(function(lines){
+    	return lines.map(function(syls){
+    	  arrOfWords = syllablesArr[syls];
+    	  return arrOfWords[Math.floor(Math.random() * arrOfWords.length)];
+    	}).join(' ');
+ 	 }).join('\n');
 
-	console.log('HELLO');
-	return haiku;
 }
 
 
